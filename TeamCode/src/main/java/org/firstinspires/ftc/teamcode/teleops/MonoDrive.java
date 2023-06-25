@@ -18,7 +18,7 @@ public class MonoDrive extends OpMode {
     //Drive Variables
     private DcMotor motorFR, motorFL, motorBR, motorBL;
     private double powerFR, powerFL, powerBR, powerBL;
-    private DcMotor motorLift;
+    private DcMotor motorLiftL, motorLiftR;
     private double powerLift;
     private Servo claw;
     private double clawPos = 1;
@@ -47,6 +47,7 @@ public class MonoDrive extends OpMode {
         if (gamepad1.right_bumper && last_right_bumper != gamepad1.right_bumper) speed = Math.min(1, speed + 0.15);
         if (gamepad1.a && last_claw_control != gamepad1.a) clawPos = (clawPos == 0 ? 1 : 0);
 
+
         if (motorLift.getCurrentPosition() > -10) powerLift = Range.clip(powerLift, -1, 0);
 
         last_left_bumper = gamepad1.left_bumper;
@@ -74,7 +75,8 @@ public class MonoDrive extends OpMode {
         motorBR.setPower(powerBR);
         motorBL.setPower(powerBL);
 
-        motorLift.setPower(powerLift);
+        motorLiftL.setPower(powerLift);
+        motorLiftR.setPower(powerLift);
 
         // TODO: keep / remove these lines based on empirical testing
         claw.setPosition(clawPos);
@@ -100,13 +102,20 @@ public class MonoDrive extends OpMode {
         motorBR = hardwareMap.get(DcMotor.class, "rearRight");
         motorBL = hardwareMap.get(DcMotor.class, "rearLeft");
 
-        motorLift = hardwareMap.get(DcMotor.class, "slide");
-        motorLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorLiftL = hardwareMap.get(DcMotor.class, "liftL");
+        motorLiftL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorLiftL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        
+        motorLiftR = hardwareMap.get(DcMotor.class, "liftR");
+        motorLiftR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorLiftR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        // TODO: change this if hemanth says
+        motorLiftL.setDirection(DcMotorSimple.Direction.REVERSE)l        
 
         claw = hardwareMap.get(Servo.class, "claw");
         // only allow claw to open partially
-        claw.scaleRange(0, 0.65);
+        // claw.scaleRange(0, 0.65);
 
         motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
         motorBL.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -120,6 +129,7 @@ public class MonoDrive extends OpMode {
         motorFL.setPower(0);
         motorBR.setPower(0);
         motorBL.setPower(0);
-        motorLift.setPower(0);
+        motorLiftL.setPower(0);
+        motorLiftR.setPower(0);
     }
 }
