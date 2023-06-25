@@ -48,7 +48,7 @@ public class MonoDrive extends OpMode {
         if (gamepad1.a && last_claw_control != gamepad1.a) clawPos = (clawPos == 0 ? 1 : 0);
 
 
-        if (motorLift.getCurrentPosition() > -10) powerLift = Range.clip(powerLift, -1, 0);
+        if (motorLiftL.getCurrentPosition() > -10) powerLift = Range.clip(powerLift, -1, 0);
 
         last_left_bumper = gamepad1.left_bumper;
         last_right_bumper = gamepad1.right_bumper;
